@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Simple AppIndicator which uses the HeadsetControl application from 
 # https://github.com/Sapd/HeadsetControl/ for retrieving charge information
@@ -11,14 +11,22 @@
 
 from gi.repository import Gtk, GLib
 from gi.repository import AppIndicator3 as appindicator
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
-APPINDICATOR_ID = 'headphonecharge'
+APPINDICATOR_ID = 'headset-charge-indicator'
+HEADSETCONTROL_BINARY = '/home/dstadler/HeadsetControl/build/headsetcontrol'
 
-def change_label(ind):
-    output=check_output(["/home/dstadler/HeadsetControl/build/headsetcontrol","-b","-c"] )
+global ind
+ind = None
+
+def change_label(dummy):
+    try:
+        output=check_output([HEADSETCONTROL_BINARY,"-b","-c"] )
+    except CalledProcessError as e:
+        print(e)
+        output="-1"
     print(output)
-    ind.set_label(output + '%', '           ')
+    ind.set_label(str(output, 'utf-8') + '%', '           ')
     if int(output) < 30:
         ind.set_status (appindicator.IndicatorStatus.ATTENTION)
     else:
@@ -31,7 +39,7 @@ def quit(source):
 
 if __name__ == "__main__":
   ind = appindicator.Indicator.new (
-                        "headphonecharge",
+                        APPINDICATOR_ID,
                         "audio-headset",
                         appindicator.IndicatorCategory.HARDWARE )
   ind.set_status (appindicator.IndicatorStatus.ACTIVE)
@@ -39,17 +47,24 @@ if __name__ == "__main__":
   ind.set_label("-1%", '           ')
   
   # refresh value right away
-  change_label(ind)
+  change_label(None)
 
   # create a menu with an Exit-item
   menu = Gtk.Menu()
+  
+  menu_items = Gtk.MenuItem("Refresh")
+  menu.append(menu_items)
+  menu_items.connect("activate", change_label)
+  menu_items.show_all()
+  
   menu_items = Gtk.MenuItem("Exit")
   menu.append(menu_items)
   menu_items.connect("activate", quit)
   menu_items.show_all()
+  
   ind.set_menu(menu)
 
   # update printed charge every 60 seconds
-  GLib.timeout_add(60000, change_label, ind)
+  GLib.timeout_add(6000, change_label, None)
 
   Gtk.main()
