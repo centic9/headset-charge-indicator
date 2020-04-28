@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/centic9/headset-charge-indicator.svg)](https://travis-ci.org/centic9/headset-charge-indicator)
+[![Tag](https://img.shields.io/github/tag/centic9/headset-charge-indicator.svg)](https://github.com/centic9/headset-charge-indicator/tags)
+
 A simple app-indicator for GNOME desktops to display the battery charge of some wirless headsets.
 
 It uses the tool from https://github.com/Sapd/HeadsetControl/ for connecting to a number of
@@ -32,16 +35,11 @@ A Headset-icon should appear in the area for app-indicators together with a perc
 Look at the description of https://github.com/Sapd/HeadsetControl/, any headset which supports 
 fetching battery is supported here as well.
 
-## Notice
+## Licensing
 
-This application is distributed in the hope that it will be useful,\
-but WITHOUT ANY WARRANTY; without even the implied warranty of\
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\
-GNU General Public License for more details.
+* headset-charge-indicator is licensed under the [BSD 2-Clause License].
 
-## License
-
-Released under GPL v3.
+[BSD 2-Clause License]: http://www.opensource.org/licenses/bsd-license.php
 
 ## Like it?
 
