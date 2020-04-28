@@ -72,6 +72,6 @@ if __name__ == "__main__":
   ind.set_menu(menu)
 
   # update printed charge every 60 seconds
-  GLib.timeout_add(6000, change_label, None)
+  GLib.timeout_add(60000, change_label, None)
 
   Gtk.main()
