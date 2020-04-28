@@ -26,7 +26,7 @@ You can check the helper application manually via `headsetcontrol -b -c`
 
 Build/install according to the instructions above then start it via 
 
-    `python3 headset-charge-indicator.py` <location of headsetcontrol>
+    python3 headset-charge-indicator.py <location of headsetcontrol>
 
 A Headset-icon should appear in the area for app-indicators together with a percentage numbers.
 
