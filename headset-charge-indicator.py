@@ -8,13 +8,14 @@
 # Simple start this application as background process, i.e. during
 # startup of the graphical desktop
 
-
+from sys import argv
 from gi.repository import Gtk, GLib
 from gi.repository import AppIndicator3 as appindicator
 from subprocess import check_output, CalledProcessError
 
 APPINDICATOR_ID = 'headset-charge-indicator'
-HEADSETCONTROL_BINARY = '/home/dstadler/HeadsetControl/build/headsetcontrol'
+global HEADSETCONTROL_BINARY
+HEADSETCONTROL_BINARY = None
 
 global ind
 ind = None
@@ -38,6 +39,12 @@ def quit(source):
     Gtk.main_quit()
 
 if __name__ == "__main__":
+  if len(argv) != 2:
+    print("Need one commandline argumetn for the location of the HeadsetControl binary")
+    exit(1)
+
+  HEADSETCONTROL_BINARY = argv[1]
+
   ind = appindicator.Indicator.new (
                         APPINDICATOR_ID,
                         "audio-headset",

@@ -8,14 +8,14 @@ on the desktop.
 
 On Ubuntu/Debian based distributions, install the following packages
 
-    sudo apt-get install python3-gi libappindicator3-dev
-    
+    sudo apt-get install python3-gi libappindicator3-dev gnome-icon-theme
+
 On others, you might need to install `pygobject`, but this is untested, PRs with more information welcome!
 
 ### Building HeadsetControl
 
 Follow the instructions at https://github.com/Sapd/HeadsetControl/ for building the binary and
-adjust the path to it in `headset-charge-indicator.py`.
+note down the path to it.
 
 You can check the helper application manually via `headsetcontrol -b -c`
 
@@ -23,7 +23,7 @@ You can check the helper application manually via `headsetcontrol -b -c`
 
 Build/install according to the instructions above then start it via 
 
-    `python3 headset-charge-indicator.py`
+    `python3 headset-charge-indicator.py` <location of headsetcontrol>
 
 A Headset-icon should appear in the area for app-indicators together with a percentage numbers.
 
