@@ -11,7 +11,7 @@ on the desktop.
 
 On Ubuntu/Debian based distributions, install the following packages
 
-    sudo apt-get install python3-gi libappindicator3-dev gnome-icon-theme
+    sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme
 
 On others, you might need to install `pygobject`, but this is untested, PRs with more information welcome!
 
