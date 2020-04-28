@@ -26,7 +26,7 @@ def change_label(dummy):
         print(e)
         output="-1"
     print(output)
-    ind.set_label(str(output, 'utf-8') + '%', '           ')
+    ind.set_label(str(output, 'utf-8') + '%', '999%')
     if int(output) < 30:
         ind.set_status (appindicator.IndicatorStatus.ATTENTION)
     else:
@@ -44,7 +44,7 @@ if __name__ == "__main__":
                         appindicator.IndicatorCategory.HARDWARE )
   ind.set_status (appindicator.IndicatorStatus.ACTIVE)
   # no icon found yet: ind.set_attention_icon ("indicator-messages-new")
-  ind.set_label("-1%", '           ')
+  ind.set_label("-1%", '999%')
   
   # refresh value right away
   change_label(None)
