@@ -23,15 +23,15 @@ ind = None
 def change_label(dummy):
     try:
         output=check_output([HEADSETCONTROL_BINARY,"-b","-c"] )
+        print(output)
+        ind.set_label(str(output, 'utf-8') + '%', '999%')
+        if int(output) < 30:
+            ind.set_status (appindicator.IndicatorStatus.ATTENTION)
+        else:
+            ind.set_status (appindicator.IndicatorStatus.ACTIVE)
     except CalledProcessError as e:
         print(e)
-        output="-1"
-    print(output)
-    ind.set_label(str(output, 'utf-8') + '%', '999%')
-    if int(output) < 30:
-        ind.set_status (appindicator.IndicatorStatus.ATTENTION)
-    else:
-        ind.set_status (appindicator.IndicatorStatus.ACTIVE)
+        ind.set_label('N/A', '999%')
 
     return True
 
