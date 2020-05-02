@@ -1,10 +1,12 @@
 [![Build Status](https://travis-ci.org/centic9/headset-charge-indicator.svg)](https://travis-ci.org/centic9/headset-charge-indicator)
 [![Tag](https://img.shields.io/github/tag/centic9/headset-charge-indicator.svg)](https://github.com/centic9/headset-charge-indicator/tags)
 
-A simple app-indicator for GNOME desktops to provide support for some wireless headsets.
+A simple app-indicator for GNOME desktops to provide support for controlling some features of
+a number of wireless headsets.
 
 Currently it supports displaying the battery charge and the 'chat-mix' level of Steelseries Arctis 
-headphones. It also supports adjusting the mount of sidetone of the microphone.
+headphones. It also supports adjusting the mount of sidetone of the microphone and allows to enable/disable
+some lights.
 
 It uses the tool from https://github.com/Sapd/HeadsetControl/ for connecting to a number of
 popular headsets and fetches information to display it in the app-indicator bar
@@ -16,7 +18,8 @@ On Ubuntu/Debian based distributions, install the following packages
 
     sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme
 
-On others, you might need to install `pygobject`, but this is untested, PRs with more information welcome!
+On other distributions, you might need to install `pygobject`, but this is untested, PRs with 
+more information welcome!
 
 ### Building HeadsetControl
 
@@ -28,7 +31,8 @@ battery level to the console.
 
 ## Usage
 
-Build/install according to the instructions above then start it via 
+Build/install the required executable `headseatcontrol` according to the instructions 
+above then start it via 
 
     python3 headset-charge-indicator.py <location of headsetcontrol>
 
@@ -39,6 +43,11 @@ A Headset-icon should appear in the area for app-indicators together with a perc
 Look at the description of https://github.com/Sapd/HeadsetControl/, headset which support 
 at least fetching battery information are supported here as well, other functionality will work 
 if the headset supports it.
+
+## Debugging
+
+The python application will print out some information to standard-output which may give some
+more information if things go wrong.
 
 ## Licensing
 
