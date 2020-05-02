@@ -22,6 +22,7 @@ OPTION_BATTERY = '-b'
 OPTION_SILENT = '-c'
 OPTION_CHATMIX = '-m'
 OPTION_SIDETONE = '-s'
+OPTION_LED = '-l'
 
 global ind
 ind = None
@@ -56,6 +57,16 @@ def set_sidetone(dummy, level):
     print("Set sidetone to: " + str(level))
     try:
         output=check_output([HEADSETCONTROL_BINARY,OPTION_SIDETONE,str(level),OPTION_SILENT] )
+        print("Result: " + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+
+    return True
+
+def set_led(dummy, level):
+    print("Set LED to: " + str(level))
+    try:
+        output=check_output([HEADSETCONTROL_BINARY,OPTION_LED,str(level),OPTION_SILENT] )
         print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
@@ -100,6 +111,21 @@ def sidetone_menu():
 
     return sidemenu
 
+def led_menu():
+    ledmenu = Gtk.Menu()
+
+    off = Gtk.MenuItem("off")
+    off.connect("activate", set_led, 0)
+    ledmenu.append(off)
+    off.show_all()
+
+    on = Gtk.MenuItem("on")
+    on.connect("activate", set_led, 1)
+    ledmenu.append(on)
+    on.show_all()
+
+    return ledmenu
+
 def quit(source):
     Gtk.main_quit()
 
@@ -138,6 +164,11 @@ if __name__ == "__main__":
   menu.append(menu_items)
   menu_items.show_all()
   menu_items.set_submenu(sidetone_menu())
+
+  menu_items = Gtk.MenuItem("LED")
+  menu.append(menu_items)
+  menu_items.show_all()
+  menu_items.set_submenu(led_menu())
   
   menu_items = Gtk.MenuItem("Exit")
   menu.append(menu_items)
