@@ -21,6 +21,7 @@ HEADSETCONTROL_BINARY = None
 OPTION_BATTERY = '-b'
 OPTION_SILENT = '-c'
 OPTION_CHATMIX = '-m'
+OPTION_SIDETONE = '-s'
 
 global ind
 ind = None
@@ -50,6 +51,54 @@ def change_chatmix(menu):
         menu.get_child().set_text('N/A')
 
     return True
+
+def set_sidetone(dummy, level):
+    print("Set sidetone to: " + str(level))
+    try:
+        output=check_output([HEADSETCONTROL_BINARY,OPTION_SIDETONE,str(level),OPTION_SILENT] )
+        print("Result: " + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+
+    return True
+
+def sidetone_menu():
+    # we map 5 levels to the range of [0-128]
+    # The Steelseries Arctis internally supports 0-0x12, i.e. 0-18
+#    OFF -> 0
+#    LOW -> 32
+#    MEDIUM -> 64
+#    HIGH -> 96
+#    MAX -> 128
+
+    sidemenu = Gtk.Menu()
+
+    off = Gtk.MenuItem("off")
+    off.connect("activate", set_sidetone, 0)
+    sidemenu.append(off)
+    off.show_all()
+
+    low = Gtk.MenuItem("low")
+    low.connect("activate", set_sidetone, 32)
+    sidemenu.append(low)
+    low.show_all()
+
+    medium = Gtk.MenuItem("medium")
+    medium.connect("activate", set_sidetone, 64)
+    sidemenu.append(medium)
+    medium.show_all()
+
+    high = Gtk.MenuItem("high")
+    high.connect("activate", set_sidetone, 96)
+    sidemenu.append(high)
+    high.show_all()
+
+    maximum = Gtk.MenuItem("max")
+    maximum.connect("activate", set_sidetone, 128)
+    sidemenu.append(maximum)
+    maximum.show_all()
+
+    return sidemenu
 
 def quit(source):
     Gtk.main_quit()
@@ -84,6 +133,11 @@ if __name__ == "__main__":
   menu.append(menu_items)
   menu_items.show_all()
   GLib.timeout_add(60000, change_chatmix, menu_items)
+
+  menu_items = Gtk.MenuItem("Sidetone")
+  menu.append(menu_items)
+  menu_items.show_all()
+  menu_items.set_submenu(sidetone_menu())
   
   menu_items = Gtk.MenuItem("Exit")
   menu.append(menu_items)
