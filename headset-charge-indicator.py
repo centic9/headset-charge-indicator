@@ -14,16 +14,21 @@ from gi.repository import AppIndicator3 as appindicator
 from subprocess import check_output, CalledProcessError
 
 APPINDICATOR_ID = 'headset-charge-indicator'
+
 global HEADSETCONTROL_BINARY
 HEADSETCONTROL_BINARY = None
+
+OPTION_BATTERY = '-b'
+OPTION_SILENT = '-c'
+OPTION_CHATMIX = '-m'
 
 global ind
 ind = None
 
 def change_label(dummy):
     try:
-        output=check_output([HEADSETCONTROL_BINARY,"-b","-c"] )
-        print(output)
+        output=check_output([HEADSETCONTROL_BINARY,OPTION_BATTERY,OPTION_SILENT] )
+        print('Bat: ' + str(output, 'utf-8'))
         ind.set_label(str(output, 'utf-8') + '%', '999%')
         if int(output) < 30:
             ind.set_status (appindicator.IndicatorStatus.ATTENTION)
@@ -32,6 +37,17 @@ def change_label(dummy):
     except CalledProcessError as e:
         print(e)
         ind.set_label('N/A', '999%')
+
+    return True
+
+def change_chatmix(menu):
+    try:
+        output=check_output([HEADSETCONTROL_BINARY,OPTION_CHATMIX,OPTION_SILENT] )
+        print("ChatMix: " + str(output, 'utf-8'))
+        menu.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+        menu.get_child().set_text('N/A')
 
     return True
 
@@ -63,6 +79,11 @@ if __name__ == "__main__":
   menu.append(menu_items)
   menu_items.connect("activate", change_label)
   menu_items.show_all()
+  
+  menu_items = Gtk.MenuItem("Chat: -1")
+  menu.append(menu_items)
+  menu_items.show_all()
+  GLib.timeout_add(60000, change_chatmix, menu_items)
   
   menu_items = Gtk.MenuItem("Exit")
   menu.append(menu_items)
