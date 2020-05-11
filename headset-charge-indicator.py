@@ -26,6 +26,8 @@ OPTION_LED = '-l'
 
 global ind
 ind = None
+global chatmix
+chatmix = None
 
 def change_label(dummy):
     try:
@@ -42,11 +44,11 @@ def change_label(dummy):
 
     return True
 
-def change_chatmix(menu):
+def change_chatmix(dummy):
     try:
         output=check_output([HEADSETCONTROL_BINARY,OPTION_CHATMIX,OPTION_SILENT] )
         print("ChatMix: " + str(output, 'utf-8'))
-        menu.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
+        chatmix.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
         menu.get_child().set_text('N/A')
@@ -143,9 +145,6 @@ if __name__ == "__main__":
   ind.set_status (appindicator.IndicatorStatus.ACTIVE)
   # no icon found yet: ind.set_attention_icon ("indicator-messages-new")
   ind.set_label("-1%", '999%')
-  
-  # refresh value right away
-  change_label(None)
 
   # create a menu with an Exit-item
   menu = Gtk.Menu()
@@ -158,7 +157,8 @@ if __name__ == "__main__":
   menu_items = Gtk.MenuItem("Chat: -1")
   menu.append(menu_items)
   menu_items.show_all()
-  GLib.timeout_add(60000, change_chatmix, menu_items)
+  GLib.timeout_add(60000, change_chatmix)
+  chatmix = menu_items
 
   menu_items = Gtk.MenuItem("Sidetone")
   menu.append(menu_items)
@@ -179,5 +179,9 @@ if __name__ == "__main__":
 
   # update printed charge every 60 seconds
   GLib.timeout_add(60000, change_label, None)
+
+  # refresh values right away
+  change_label(None)
+  change_chatmix(None)
 
   Gtk.main()
