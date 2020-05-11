@@ -128,6 +128,10 @@ def led_menu():
 
     return ledmenu
 
+def refresh():
+	change_label()
+	change_chatmix()
+
 def quit(source):
     Gtk.main_quit()
 
@@ -151,13 +155,12 @@ if __name__ == "__main__":
   
   menu_items = Gtk.MenuItem("Refresh")
   menu.append(menu_items)
-  menu_items.connect("activate", change_label)
+  menu_items.connect("activate", refresh)
   menu_items.show_all()
   
   menu_items = Gtk.MenuItem("Chat: -1")
   menu.append(menu_items)
   menu_items.show_all()
-  GLib.timeout_add(60000, change_chatmix)
   chatmix = menu_items
 
   menu_items = Gtk.MenuItem("Sidetone")
@@ -179,6 +182,7 @@ if __name__ == "__main__":
 
   # update printed charge every 60 seconds
   GLib.timeout_add(60000, change_label, None)
+  GLib.timeout_add(60000, change_chatmix, None)
 
   # refresh values right away
   change_label(None)
