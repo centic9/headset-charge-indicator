@@ -128,9 +128,9 @@ def led_menu():
 
     return ledmenu
 
-def refresh():
-    change_label()
-    change_chatmix()
+def refresh(dummy):
+    change_label(None)
+    change_chatmix(None)
 
 def quit(source):
     Gtk.main_quit()
