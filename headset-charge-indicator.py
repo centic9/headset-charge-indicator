@@ -18,6 +18,9 @@ APPINDICATOR_ID = 'headset-charge-indicator'
 global HEADSETCONTROL_BINARY
 HEADSETCONTROL_BINARY = None
 
+global SWITCHSOUND_BINARY
+SWITCHSOUND_BINARY = None
+
 OPTION_BATTERY = '-b'
 OPTION_SILENT = '-c'
 OPTION_CHATMIX = '-m'
@@ -69,6 +72,16 @@ def set_led(dummy, level):
     print("Set LED to: " + str(level))
     try:
         output=check_output([HEADSETCONTROL_BINARY,OPTION_LED,str(level),OPTION_SILENT] )
+        print("Result: " + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+
+    return True
+
+def switch_sound(dummy, level):
+    print("Switch sound to: " + str(level))
+    try:
+        output=check_output([SWITCHSOUND_BINARY,str(level)] )
         print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
@@ -128,6 +141,21 @@ def led_menu():
 
     return ledmenu
 
+def switch_menu():
+    switchmenu = Gtk.Menu()
+
+    laptop = Gtk.MenuItem("Soundcard")
+    laptop.connect("activate", switch_sound, 1)
+    switchmenu.append(laptop)
+    laptop.show_all()
+
+    headset = Gtk.MenuItem("Headset")
+    headset.connect("activate", switch_sound, 2)
+    switchmenu.append(headset)
+    headset.show_all()
+
+    return switchmenu
+
 def refresh(dummy):
     change_label(None)
     change_chatmix(None)
@@ -136,11 +164,13 @@ def quit(source):
     Gtk.main_quit()
 
 if __name__ == "__main__":
-  if len(argv) != 2:
-    print("Need one commandline argumetn for the location of the HeadsetControl binary")
+  if len(argv) != 2 and len(argv) != 3:
+    print("Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset")
     exit(1)
 
   HEADSETCONTROL_BINARY = argv[1]
+  if len(argv) == 3:
+    SWITCHSOUND_BINARY = argv[2]
 
   ind = appindicator.Indicator.new (
                         APPINDICATOR_ID,
@@ -173,6 +203,12 @@ if __name__ == "__main__":
   menu_items.show_all()
   menu_items.set_submenu(led_menu())
   
+  if len(argv) == 3:
+    menu_items = Gtk.MenuItem("Switch")
+    menu.append(menu_items)
+    menu_items.show_all()
+    menu_items.set_submenu(switch_menu())
+
   menu_items = Gtk.MenuItem("Exit")
   menu.append(menu_items)
   menu_items.connect("activate", quit)

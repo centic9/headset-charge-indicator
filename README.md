@@ -4,13 +4,17 @@
 A simple app-indicator for GNOME desktops to provide support for controlling some features of
 a number of wireless headsets.
 
-Currently it supports displaying the battery charge and the 'chat-mix' level of Steelseries Arctis 
-headphones. It also supports adjusting the mount of sidetone of the microphone and allows to enable/disable
+Currently it mainly supports displaying the battery charge and the 'chat-mix' level of Steelseries Arctis 
+headphones.
+It also supports adjusting the mount of sidetone of the microphone and allows to enable/disable
 some lights.
 
 It uses the tool from https://github.com/Sapd/HeadsetControl/ for connecting to a number of
 popular headsets and fetches information to display it in the app-indicator bar
 on the desktop.
+
+If an additional external script is provided, it also allows to switch between sending sound to the soundcard or to
+the Headset and record from the correct microphone.
 
 ## Installation
 
@@ -37,6 +41,13 @@ above then start it via
     python3 headset-charge-indicator.py <location of headsetcontrol>
 
 A Headset-icon should appear in the area for app-indicators together with a percentage number.
+
+If you provide a second commandline argument, an additional "Switch" menu will be added with 
+options to switch between Soundcard and Headset. The provided application or script will be
+invoked with "1" for soundcard and "2" for headset.
+
+A script can for example use pactl and/or pacmd to send audio output to the correct endpoint
+as well as setting audio input to the correct microphone.
 
 ## Supported Headsets
 
