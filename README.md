@@ -4,10 +4,11 @@
 A simple app-indicator for GNOME desktops to provide support for controlling some features of
 a number of wireless headsets.
 
-Currently it mainly supports displaying the battery charge and the 'chat-mix' level of Steelseries Arctis 
-headphones.
-It also supports adjusting the mount of sidetone of the microphone and allows to enable/disable
-some lights.
+![Screenshot](headset-charge-indicator.png)
+
+It supports displaying the battery charge, turning on/off LEDs and adjusting the sidetone level of the microphone. 
+
+It additionally supports displaying the 'chat-mix' level of Steelseries Arctis headphones.
 
 It uses the tool from https://github.com/Sapd/HeadsetControl/ for connecting to a number of
 popular headsets and fetches information to display it in the app-indicator bar
