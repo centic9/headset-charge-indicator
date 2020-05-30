@@ -104,27 +104,27 @@ def sidetone_menu():
 
     sidemenu = Gtk.Menu()
 
-    off = Gtk.MenuItem("off")
+    off = Gtk.MenuItem(label="off")
     off.connect("activate", set_sidetone, 0)
     sidemenu.append(off)
     off.show_all()
 
-    low = Gtk.MenuItem("low")
+    low = Gtk.MenuItem(label="low")
     low.connect("activate", set_sidetone, 32)
     sidemenu.append(low)
     low.show_all()
 
-    medium = Gtk.MenuItem("medium")
+    medium = Gtk.MenuItem(label="medium")
     medium.connect("activate", set_sidetone, 64)
     sidemenu.append(medium)
     medium.show_all()
 
-    high = Gtk.MenuItem("high")
+    high = Gtk.MenuItem(label="high")
     high.connect("activate", set_sidetone, 96)
     sidemenu.append(high)
     high.show_all()
 
-    maximum = Gtk.MenuItem("max")
+    maximum = Gtk.MenuItem(label="max")
     maximum.connect("activate", set_sidetone, 128)
     sidemenu.append(maximum)
     maximum.show_all()
@@ -134,12 +134,12 @@ def sidetone_menu():
 def led_menu():
     ledmenu = Gtk.Menu()
 
-    off = Gtk.MenuItem("off")
+    off = Gtk.MenuItem(label="off")
     off.connect("activate", set_led, 0)
     ledmenu.append(off)
     off.show_all()
 
-    on = Gtk.MenuItem("on")
+    on = Gtk.MenuItem(label="on")
     on.connect("activate", set_led, 1)
     ledmenu.append(on)
     on.show_all()
@@ -149,12 +149,12 @@ def led_menu():
 def switch_menu():
     switchmenu = Gtk.Menu()
 
-    laptop = Gtk.MenuItem("Soundcard")
+    laptop = Gtk.MenuItem(label="Soundcard")
     laptop.connect("activate", switch_sound, 1)
     switchmenu.append(laptop)
     laptop.show_all()
 
-    headset = Gtk.MenuItem("Headset")
+    headset = Gtk.MenuItem(label="Headset")
     headset.connect("activate", switch_sound, 2)
     switchmenu.append(headset)
     headset.show_all()
@@ -188,33 +188,33 @@ if __name__ == "__main__":
   # create a menu with an Exit-item
   menu = Gtk.Menu()
   
-  menu_items = Gtk.MenuItem("Refresh")
+  menu_items = Gtk.MenuItem(label="Refresh")
   menu.append(menu_items)
   menu_items.connect("activate", refresh)
   menu_items.show_all()
   
-  menu_items = Gtk.MenuItem("Chat: -1")
+  menu_items = Gtk.MenuItem(label="Chat: -1")
   menu.append(menu_items)
   menu_items.show_all()
   chatmix = menu_items
 
-  menu_items = Gtk.MenuItem("Sidetone")
+  menu_items = Gtk.MenuItem(label="Sidetone")
   menu.append(menu_items)
   menu_items.show_all()
   menu_items.set_submenu(sidetone_menu())
 
-  menu_items = Gtk.MenuItem("LED")
+  menu_items = Gtk.MenuItem(label="LED")
   menu.append(menu_items)
   menu_items.show_all()
   menu_items.set_submenu(led_menu())
   
   if len(argv) == 3:
-    menu_items = Gtk.MenuItem("Switch")
+    menu_items = Gtk.MenuItem(label="Switch")
     menu.append(menu_items)
     menu_items.show_all()
     menu_items.set_submenu(switch_menu())
 
-  menu_items = Gtk.MenuItem("Exit")
+  menu_items = Gtk.MenuItem(label="Exit")
   menu.append(menu_items)
   menu_items.connect("activate", quit)
   menu_items.show_all()
