@@ -70,3 +70,6 @@ more information if things go wrong.
 ## Like it?
 
 If you like my software please star the repository.
+
+If you find this application useful and would like to support it, you can [Sponsor the author](https://github.com/sponsors/centic9)
+
