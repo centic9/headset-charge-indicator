@@ -39,7 +39,7 @@ battery level to the console.
 Build/install the required executable `headseatcontrol` according to the instructions 
 above then start it via 
 
-    python3 headset-charge-indicator.py <location of headsetcontrol>
+    python3 headset-charge-indicator.py <location of headsetcontrol-executable>
 
 A Headset-icon should appear in the area for app-indicators together with a percentage number.
 
