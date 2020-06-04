@@ -21,7 +21,7 @@ the Headset and record from the correct microphone.
 
 On Ubuntu/Debian based distributions, install the following packages
 
-    sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme
+    sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme gir1.2-appindicator3-0.1
 
 On other distributions, you might need to install `pygobject`, but this is untested, PRs with 
 more information welcome!
