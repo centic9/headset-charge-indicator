@@ -36,18 +36,25 @@ global ind
 ind = None
 global chatmix
 chatmix = None
+global prevSwitch
+prevSwitch = 0
 
 def change_icon(dummy):
+    global prevSwitch
     try:
         output = check_output([SWITCHSOUND_BINARY,"-1"] )
-        # exit 0 means we could not find out, so set some other icon
-        ind.set_attention_icon_full("audio-card", "Audio Card")
+        # only 
+        if prevSwitch == 0:
+            # exit 0 means we could not find out, so set some other icon
+            ind.set_attention_icon_full("audio-card", "Audio Card")
     except CalledProcessError as e:
         print(e)
         if e.returncode == 1:
             ind.set_attention_icon_full("audio-speakers", "Audio Card")
+            prevSwitch = 1
         else:
             ind.set_attention_icon_full("audio-headset", "Headset")
+            prevSwitch = 2
 
     return True
 
@@ -67,6 +74,8 @@ def change_label(dummy):
     return True
 
 def change_chatmix(dummy):
+    global chatmix
+
     try:
         output = check_output([HEADSETCONTROL_BINARY,OPTION_CHATMIX,OPTION_SILENT] )
         print("ChatMix: " + str(output, 'utf-8'))
@@ -105,8 +114,8 @@ def switch_sound(dummy, level):
     except CalledProcessError as e:
         print(e)
 
-    # adjust icon after switching
-    change_icon(None)
+    # refresh UI after switching
+    refresh(None)
 
     return True
 
