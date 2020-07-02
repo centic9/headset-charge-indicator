@@ -56,6 +56,18 @@ Look at the description of https://github.com/Sapd/HeadsetControl/, headset whic
 at least fetching battery information are supported here as well, other functionality will work 
 if the headset supports it.
 
+## Supported Desktop Envrionemnts
+
+The tool uses Python Bindings for the GNOME appindicator functionality. So it is mainly supported on this desktop environment. 
+
+However some other Desktop environments have some support for appindicators, so it might be possible to run this tool on other desktop environments as well.
+
+Currently known behavior/support:
+
+* Cinnamon: Seems to work, but percentage is not displayed as part of the indicator-icon
+
+Please let me know via an issue if you successfully run it on another desktop environment!
+
 ## Debugging
 
 The python application will print out some information to standard-output which may give some
