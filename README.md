@@ -68,6 +68,7 @@ Currently known behavior/support:
 * KDE/Plasma: Seems to work, but percentage is not displayed as part of the indicator-icon
 * MATE: Runs, but does not display an icon
 * LXDE: Runs, but does not display an icon
+* Budgie: Runs, but does not display an icon
 * XFCE: Runs, but indicator-icon only appears for a very short time and then disappears again
 * OpenBox: ??
 
