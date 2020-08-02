@@ -64,6 +64,7 @@ However some other Desktop environments have some support for appindicators, so 
 
 Currently known behavior/support:
 
+* GNOME: Works fully
 * Cinnamon: Seems to work, but percentage is not displayed as part of the indicator-icon
 * KDE/Plasma: Seems to work, but percentage is not displayed as part of the indicator-icon
 * MATE: Runs, but does not display an icon
@@ -72,7 +73,8 @@ Currently known behavior/support:
 * XFCE: Runs, but indicator-icon only appears for a very short time and then disappears again
 * OpenBox: ??
 
-Please let me know via an issue if you successfully run it on another desktop environment!
+Please let me know via an issue if you successfully run it on another desktop environment or know of
+a way to make it run better on any of those desktop environments!
 
 ## Debugging
 
