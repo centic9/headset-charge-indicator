@@ -82,7 +82,7 @@ def change_chatmix(dummy):
         chatmix.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
-        chatmix.get_child().set_text('N/A')
+        chatmix.get_child().set_text('ChatMix: N/A')
 
     return True
 
