@@ -62,10 +62,19 @@ def change_label(dummy):
     try:
         output = check_output([HEADSETCONTROL_BINARY,OPTION_BATTERY,OPTION_SILENT] )
         print('Bat: ' + str(output, 'utf-8'))
-        ind.set_label(str(output, 'utf-8') + '%', '999%')
-        if int(output) < 100:
+        # -1 indicates "Battery is charging"
+        if int(output) == -1:
+            ind.set_label('Chg', '999%')
+            ind.set_status (appindicator.IndicatorStatus.ACTIVE)
+        # -2 indicates "Battery is unavailable"
+        elif int(output) == -2:
+            ind.set_label('Off', '999%')
+            ind.set_status (appindicator.IndicatorStatus.ACTIVE)
+        elif int(output) < 100:
+            ind.set_label(str(output, 'utf-8') + '%', '999%')
             ind.set_status (appindicator.IndicatorStatus.ATTENTION)
         else:
+            ind.set_label(str(output, 'utf-8') + '%', '999%')
             ind.set_status (appindicator.IndicatorStatus.ACTIVE)
     except CalledProcessError as e:
         print(e)
