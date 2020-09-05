@@ -23,6 +23,10 @@ On Ubuntu/Debian based distributions, install the following packages
 
     sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme gir1.2-appindicator3-0.1
 
+On Arch Linux, it should be sufficient to run the following steps
+
+    sudo pacman -S libappindicator-gtk3 gnome-icon-theme
+
 On other distributions, you might need to install `pygobject`, but this is untested, PRs with 
 more information welcome!
 
