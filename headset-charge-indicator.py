@@ -55,9 +55,12 @@ def change_icon(dummy):
         elif e.returncode == 2:
             ind.set_attention_icon_full("audio-headset", "Headset")
             prevSwitch = 2
-        else:
+        elif e.returncode == 3:
             ind.set_attention_icon_full("audio-headphones", "USB")
             prevSwitch = 3
+        else:
+            ind.set_attention_icon_full("audio-input-microphone", "Speakerphone")
+            prevSwitch = 4
 
     return True
 
@@ -199,6 +202,11 @@ def switch_menu():
 
     usb = Gtk.MenuItem(label="USB Headset")
     usb.connect("activate", switch_sound, 3)
+    switchmenu.append(usb)
+    usb.show_all()
+
+    usb = Gtk.MenuItem(label="Chat Device")
+    usb.connect("activate", switch_sound, 4)
     switchmenu.append(usb)
     usb.show_all()
 
