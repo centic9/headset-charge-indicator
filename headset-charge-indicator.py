@@ -138,7 +138,10 @@ def switch_sound(dummy, level):
         print(e)
 
     # refresh UI after switching
-    refresh(None)
+    if args.switch_command is not None:
+        refresh(switch_command_is_present=True)
+    else:
+        refresh(switch_command_is_present=False)
 
     return True
 
@@ -224,10 +227,10 @@ def switch_menu():
     return switchmenu
 
 
-def refresh(dummy):
+def refresh(switch_command_is_present: bool = False):
     change_label(None)
     change_chatmix(None)
-    if len(argv) == 3:
+    if switch_command_is_present:
         change_icon(None)
 
 
@@ -236,14 +239,28 @@ def quit_app(source):
 
 
 if __name__ == "__main__":
-    if len(argv) != 2 and len(argv) != 3:
-        print(
-            "Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset")
-        exit(1)
+    parser = argparse.ArgumentParser(description="""
+    Simple AppIndicator which uses the HeadsetControl application from 
+    https://github.com/Sapd/HeadsetControl/ for retrieving charge information
+    for wireless headsets and displays it as app-indicator
+    
+    Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset
+    """)
+    parser.add_argument('--headsetcontrol-binary', metavar='<path to headsetcontrol binary>', type=str,
+                        help='Path to headsetcontrol binary', required=True,
+                        dest='headsetcontrolbinary')
+    parser.add_argument('--switch-command', metavar='<device switch command>', type=str,
+                        help='optional command to switch between Laptop and Headset', required=False, default=None,
+                        dest='switch_command')
+    args = parser.parse_args()
+    # if len(argv) != 2 and len(argv) != 3:
+    #     print(
+    #         "Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset")
+    #     exit(1)
 
-    HEADSETCONTROL_BINARY = argv[1]
-    if len(argv) == 3:
-        SWITCHSOUND_BINARY = argv[2]
+    HEADSETCONTROL_BINARY = args.headsetcontrolbinary
+    if args.switch_command is not None:
+        SWITCHSOUND_BINARY = args.switch_command
 
     ind = appindicator.Indicator.new(
         APPINDICATOR_ID,
@@ -275,7 +292,7 @@ if __name__ == "__main__":
     menu_items.show_all()
     menu_items.set_submenu(led_menu())
 
-    if len(argv) == 3:
+    if args.switch_command is not None:
         menu_items = Gtk.MenuItem(label="Switch")
         menu.append(menu_items)
         menu_items.show_all()
@@ -289,7 +306,7 @@ if __name__ == "__main__":
     ind.set_menu(menu)
 
     # if we have switchSound binary, we can try to detect current output
-    if len(argv) == 3:
+    if args.switch_command is not None:
         GLib.timeout_add(60000, change_icon, None)
 
     # update printed charge every 60 seconds
@@ -297,6 +314,9 @@ if __name__ == "__main__":
     GLib.timeout_add(60000, change_chatmix, None)
 
     # refresh values right away
-    refresh(None)
+    if args.switch_command is not None:
+        refresh(switch_command_is_present=True)
+    else:
+        refresh(switch_command_is_present=False)
 
     Gtk.main()
