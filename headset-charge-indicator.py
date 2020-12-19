@@ -10,7 +10,6 @@
 
 import argparse
 from sys import argv
-
 from gi import require_version
 
 require_version('Gtk', '3.0')
@@ -135,6 +134,7 @@ def switch_sound(dummy, level):
         output = check_output([SWITCHSOUND_BINARY, str(level)])
         print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
+        print("Result: " + str(e.output, 'utf-8'))
         print(e)
 
     # refresh UI after switching
@@ -244,19 +244,17 @@ if __name__ == "__main__":
     https://github.com/Sapd/HeadsetControl/ for retrieving charge information
     for wireless headsets and displays it as app-indicator
     
-    Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset
-    """)
+    The application expects one or two commandline arguments, one for the location of the 
+    HeadsetControl binary and one for an optional command to switch between Laptop, Headset 
+    and other devices.
+    """, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('--headsetcontrol-binary', metavar='<path to headsetcontrol binary>', type=str,
                         help='Path to headsetcontrol binary', required=True,
                         dest='headsetcontrolbinary')
     parser.add_argument('--switch-command', metavar='<device switch command>', type=str,
-                        help='optional command to switch between Laptop and Headset', required=False, default=None,
+                        help='Optional command to switch between Laptop, Headset and other devices', required=False, default=None,
                         dest='switch_command')
     args = parser.parse_args()
-    # if len(argv) != 2 and len(argv) != 3:
-    #     print(
-    #         "Need one or two commandline arguments, one for the location of the HeadsetControl binary and one for the optional command to switch between Laptop and Headset")
-    #     exit(1)
 
     HEADSETCONTROL_BINARY = args.headsetcontrolbinary
     if args.switch_command is not None:
