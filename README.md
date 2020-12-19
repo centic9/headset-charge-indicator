@@ -42,17 +42,40 @@ battery level to the console if your headset is supported.
 Build/install the required executable `headseatcontrol` according to the instructions 
 above then start the headset-charge-indicator via 
 
-    python3 headset-charge-indicator.py <location of headsetcontrol-executable>
+    python3 headset-charge-indicator.py --headsetcontrol-binary <location of headsetcontrol-executable>
 
 A Headset-icon should appear in the area for app-indicators together with a percentage number.
 
-If you provide a second commandline argument, an additional "Switch" menu will be added with 
-options to switch between Soundcard and Headset. The provided application or script will be
+If you provide a second commandline argument `--switch-command`, an additional "Switch" menu will be added with 
+options to switch between Soundcard and some Headsets and USB devices. The provided application or script will be
 invoked with "1" for soundcard, "2" for headset, "3" for an USB headset and "4" for a chat-device
 (it should be easy to adjust this for your devices).
 
 A script can for example use pactl and/or pacmd to send audio output to the correct endpoint
 as well as setting audio input to the correct microphone.
+
+### Commandline
+
+```
+$ ./headset-charge-indicator.py -h
+usage: headset-charge-indicator.py [-h] --headsetcontrol-binary <path to headsetcontrol binary> [--switch-command <device switch command>]
+
+    Simple AppIndicator which uses the HeadsetControl application from 
+    https://github.com/Sapd/HeadsetControl/ for retrieving charge information
+    for wireless headsets and displays it as app-indicator
+    
+    The application expects one or two commandline arguments, one for the location of the 
+    HeadsetControl binary and one for an optional command to switch between Laptop, Headset 
+    and other devices.
+    
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --headsetcontrol-binary <path to headsetcontrol binary>
+                        Path to headsetcontrol binary
+  --switch-command <device switch command>
+                        Optional command to switch between Laptop, Headset and other devices
+```
 
 ## Supported Headsets
 
