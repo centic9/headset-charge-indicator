@@ -46,12 +46,12 @@ def change_icon(dummy):
     try:
         if SWITCHSOUND_BINARY is not None:
             output = check_output([SWITCHSOUND_BINARY, "-1"])
+            if prevSwitch == 0:
+                # exit 0 means we could not find out, so set some other icon
+                ind.set_attention_icon_full("audio-card", "Audio Card")
         else:
-            prevSwitch = 0
-        # only 
-        if prevSwitch == 0:
-            # exit 0 means we could not find out, so set some other icon
             ind.set_attention_icon_full("audio-headset", "Headset")
+        
     except CalledProcessError as e:
         print(e)
         if e.returncode == 1:
