@@ -58,7 +58,7 @@ as well as setting audio input to the correct microphone.
 
 ```
 $ ./headset-charge-indicator.py -h
-usage: headset-charge-indicator.py [-h] --headsetcontrol-binary <path to headsetcontrol binary> [--switch-command <device switch command>]
+usage: headset-charge-indicator.py [-h] --headsetcontrol-binary <path to headsetcontrol binary> [--switch-command <device switch command>] [--verbose]
 
     Simple AppIndicator which uses the HeadsetControl application from 
     https://github.com/Sapd/HeadsetControl/ for retrieving charge information
@@ -75,6 +75,7 @@ optional arguments:
                         Path to headsetcontrol binary
   --switch-command <device switch command>
                         Optional command to switch between Laptop, Headset and other devices
+  --verbose             Increase output verbosity
 ```
 
 ## Supported Headsets
