@@ -44,11 +44,14 @@ prevSwitch = 0
 def change_icon(dummy):
     global prevSwitch
     try:
-        output = check_output([SWITCHSOUND_BINARY, "-1"])
+        if SWITCHSOUND_BINARY is not None:
+            output = check_output([SWITCHSOUND_BINARY, "-1"])
+        else:
+            prevSwitch = 0
         # only 
         if prevSwitch == 0:
             # exit 0 means we could not find out, so set some other icon
-            ind.set_attention_icon_full("audio-card", "Audio Card")
+            ind.set_attention_icon_full("audio-headset", "Headset")
     except CalledProcessError as e:
         print(e)
         if e.returncode == 1:
@@ -70,7 +73,8 @@ def change_icon(dummy):
 def change_label(dummy):
     try:
         output = check_output([HEADSETCONTROL_BINARY, OPTION_BATTERY, OPTION_SILENT])
-        print('Bat: ' + str(output, 'utf-8'))
+        if args.verbose:
+            print('Bat: ' + str(output, 'utf-8'))
         # -1 indicates "Battery is charging"
         if int(output) == -1:
             ind.set_label('Chg', '999%')
@@ -97,7 +101,8 @@ def change_chatmix(dummy):
 
     try:
         output = check_output([HEADSETCONTROL_BINARY, OPTION_CHATMIX, OPTION_SILENT])
-        print("ChatMix: " + str(output, 'utf-8'))
+        if args.verbose:
+            print("ChatMix: " + str(output, 'utf-8'))
         chatmix.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
@@ -107,10 +112,12 @@ def change_chatmix(dummy):
 
 
 def set_sidetone(dummy, level):
-    print("Set sidetone to: " + str(level))
+    if args.verbose:
+        print("Set sidetone to: " + str(level))
     try:
         output = check_output([HEADSETCONTROL_BINARY, OPTION_SIDETONE, str(level), OPTION_SILENT])
-        print("Result: " + str(output, 'utf-8'))
+        if args.verbose:
+            print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
 
@@ -118,10 +125,12 @@ def set_sidetone(dummy, level):
 
 
 def set_led(dummy, level):
-    print("Set LED to: " + str(level))
+    if args.verbose:
+        print("Set LED to: " + str(level))
     try:
         output = check_output([HEADSETCONTROL_BINARY, OPTION_LED, str(level), OPTION_SILENT])
-        print("Result: " + str(output, 'utf-8'))
+        if args.verbose:
+            print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
         print(e)
 
@@ -129,10 +138,12 @@ def set_led(dummy, level):
 
 
 def switch_sound(dummy, level):
-    print("Switch sound to: " + str(level))
+    if args.verbose:
+        print("Switch sound to: " + str(level))
     try:
         output = check_output([SWITCHSOUND_BINARY, str(level)])
-        print("Result: " + str(output, 'utf-8'))
+        if args.verbose:
+            print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
         print("Result: " + str(e.output, 'utf-8'))
         print(e)
@@ -230,8 +241,7 @@ def switch_menu():
 def refresh(switch_command_is_present: bool = False):
     change_label(None)
     change_chatmix(None)
-    if switch_command_is_present:
-        change_icon(None)
+    change_icon(None)
 
 
 def quit_app(source):
@@ -254,6 +264,7 @@ if __name__ == "__main__":
     parser.add_argument('--switch-command', metavar='<device switch command>', type=str,
                         help='Optional command to switch between Laptop, Headset and other devices', required=False, default=None,
                         dest='switch_command')
+    parser.add_argument("--verbose", help="Increase output verbosity", action="store_true")
     args = parser.parse_args()
 
     HEADSETCONTROL_BINARY = args.headsetcontrolbinary
