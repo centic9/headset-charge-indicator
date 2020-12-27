@@ -45,7 +45,7 @@ def change_icon(dummy):
     global prevSwitch
     try:
         if SWITCHSOUND_BINARY is not None:
-            output = check_output([SWITCHSOUND_BINARY, "-1"])
+            check_output([SWITCHSOUND_BINARY, "-1"])
             if prevSwitch == 0:
                 # exit 0 means we could not find out, so set some other icon
                 ind.set_attention_icon_full("audio-card", "Audio Card")
