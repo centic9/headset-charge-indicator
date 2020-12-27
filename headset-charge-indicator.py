@@ -149,10 +149,7 @@ def switch_sound(dummy, level):
         print(e)
 
     # refresh UI after switching
-    if args.switch_command is not None:
-        refresh(switch_command_is_present=True)
-    else:
-        refresh(switch_command_is_present=False)
+    refresh(None)
 
     return True
 
@@ -238,7 +235,7 @@ def switch_menu():
     return switchmenu
 
 
-def refresh(switch_command_is_present: bool = False):
+def refresh(dummy):
     change_label(None)
     change_chatmix(None)
     change_icon(None)
@@ -323,9 +320,6 @@ if __name__ == "__main__":
     GLib.timeout_add(60000, change_chatmix, None)
 
     # refresh values right away
-    if args.switch_command is not None:
-        refresh(switch_command_is_present=True)
-    else:
-        refresh(switch_command_is_present=False)
+    refresh(None)
 
     Gtk.main()
