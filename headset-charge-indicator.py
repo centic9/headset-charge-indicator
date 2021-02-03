@@ -37,6 +37,8 @@ global ind
 ind = None
 global chatmix
 chatmix = None
+global charge
+charge = None
 global prevSwitch
 prevSwitch = 0
 
@@ -77,21 +79,24 @@ def change_label(dummy):
             print('Bat: ' + str(output, 'utf-8'))
         # -1 indicates "Battery is charging"
         if int(output) == -1:
-            ind.set_label('Chg', '999%')
+            text = 'Chg'
             ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         # -2 indicates "Battery is unavailable"
         elif int(output) == -2:
-            ind.set_label('Off', '999%')
+            text = 'Chg'
             ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         elif int(output) < 100:
-            ind.set_label(str(output, 'utf-8') + '%', '999%')
+            text = str(output, 'utf-8') + '%'
             ind.set_status(appindicator.IndicatorStatus.ATTENTION)
         else:
-            ind.set_label(str(output, 'utf-8') + '%', '999%')
+            text = str(output, 'utf-8') + '%'
             ind.set_status(appindicator.IndicatorStatus.ACTIVE)
     except CalledProcessError as e:
         print(e)
-        ind.set_label('N/A', '999%')
+        text = 'N/A'
+
+    ind.set_label(text, '999%')
+    charge.get_child().set_text('Charge: ' + text)
 
     return True
 
@@ -282,6 +287,11 @@ if __name__ == "__main__":
     menu.append(menu_items)
     menu_items.connect("activate", refresh)
     menu_items.show_all()
+
+    menu_items = Gtk.MenuItem(label="Charge: -1")
+    menu.append(menu_items)
+    menu_items.show_all()
+    charge = menu_items
 
     menu_items = Gtk.MenuItem(label="Chat: -1")
     menu.append(menu_items)
