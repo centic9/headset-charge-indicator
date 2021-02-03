@@ -95,11 +95,11 @@ possible to run this tool on other desktop environments as well.
 Currently known behavior/support:
 
 * GNOME: Works fully
-   Note: On Debian/Ubuntu you might need to install package `gnome-shell-extension-appindicator`.
-   On other distributions, you will need to install the KStatusNotifierItem/AppIndicator Support from
+   * Note: On Debian/Ubuntu you might need to install package `gnome-shell-extension-appindicator`.
+   * On other distributions, you will need to install the KStatusNotifierItem/AppIndicator Support from
    https://extensions.gnome.org/extension/615/appindicator-support/
    
-   After installation run `gnome-shell-extension-prefs` and enable `KStatusNotifierItem/AppIndicator Support`
+   * After installation run `gnome-shell-extension-prefs` and enable `KStatusNotifierItem/AppIndicator Support`
 * Cinnamon: Seems to work, but percentage is not displayed as part of the indicator-icon
 * KDE/Plasma: Seems to work, but percentage is not displayed as part of the indicator-icon
 * MATE: Runs, but does not display an icon
@@ -111,7 +111,14 @@ Currently known behavior/support:
 Please let me know via an issue if you successfully run it on another desktop environment or know of
 a way to make it run better on any of those desktop environments!
 
-## Debugging
+The fact that the percentage does not show up everywhere is somewhat documented at http://net3d.free.fr/html/AppIndicator-0.1.gir/AppIndicator.Indicator-label.html
+
+## Development/Debugging
+
+The following information was helpful in developing this tool:
+* https://wiki.ubuntu.com/DesktopExperienceTeam/ApplicationIndicators#Typical_usage_.28C_version.29
+* http://candidtim.github.io/appindicator/2014/09/13/ubuntu-appindicator-step-by-step.html
+* http://net3d.free.fr/html/AppIndicator-0.1.gir/AppIndicator.Indicator.html
 
 The python application will print out some information to standard-output which may give some
 more information if things go wrong.
