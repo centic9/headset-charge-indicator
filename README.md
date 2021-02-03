@@ -95,6 +95,11 @@ possible to run this tool on other desktop environments as well.
 Currently known behavior/support:
 
 * GNOME: Works fully
+   Note: On Debian/Ubuntu you might need to install package `gnome-shell-extension-appindicator`.
+   On other distributions, you will need to install the KStatusNotifierItem/AppIndicator Support from
+   https://extensions.gnome.org/extension/615/appindicator-support/
+   
+   After installation run `gnome-shell-extension-prefs` and enable `KStatusNotifierItem/AppIndicator Support`
 * Cinnamon: Seems to work, but percentage is not displayed as part of the indicator-icon
 * KDE/Plasma: Seems to work, but percentage is not displayed as part of the indicator-icon
 * MATE: Runs, but does not display an icon
