@@ -32,6 +32,7 @@ OPTION_SILENT = '-c'
 OPTION_CHATMIX = '-m'
 OPTION_SIDETONE = '-s'
 OPTION_LED = '-l'
+OPTION_INACTIVE_TIME = '-i'
 
 global ind
 ind = None
@@ -129,6 +130,19 @@ def set_sidetone(dummy, level):
     return True
 
 
+def set_inactive_time(dummy, level):
+    if args.verbose:
+        print("Set inactive-time to: " + str(level))
+    try:
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_INACTIVE_TIME, str(level), OPTION_SILENT])
+        if args.verbose:
+            print("Result: " + str(output, 'utf-8'))
+    except CalledProcessError as e:
+        print(e)
+
+    return True
+
+
 def set_led(dummy, level):
     if args.verbose:
         print("Set LED to: " + str(level))
@@ -196,6 +210,45 @@ def sidetone_menu():
     maximum.show_all()
 
     return sidemenu
+
+
+def inactive_time_menu():
+    # the option allows to set an inactive time between 0 and 90 minutes
+    # therefore we map a few different time-spans to the range of [0-90]
+
+    inactive_time_menu = Gtk.Menu()
+
+    off = Gtk.MenuItem(label="off")
+    off.connect("activate", set_inactive_time, 0)
+    inactive_time_menu.append(off)
+    off.show_all()
+
+    five = Gtk.MenuItem(label="5 min")
+    five.connect("activate", set_inactive_time, 5)
+    inactive_time_menu.append(five)
+    five.show_all()
+
+    fifteen = Gtk.MenuItem(label="15 min")
+    fifteen.connect("activate", set_inactive_time, 15)
+    inactive_time_menu.append(fifteen)
+    fifteen.show_all()
+
+    thirty = Gtk.MenuItem(label="30 min")
+    thirty.connect("activate", set_inactive_time, 30)
+    inactive_time_menu.append(thirty)
+    thirty.show_all()
+
+    sixty = Gtk.MenuItem(label="60 min")
+    sixty.connect("activate", set_inactive_time, 60)
+    inactive_time_menu.append(sixty)
+    sixty.show_all()
+
+    ninety = Gtk.MenuItem(label="90 min")
+    ninety.connect("activate", set_inactive_time, 90)
+    inactive_time_menu.append(ninety)
+    ninety.show_all()
+
+    return inactive_time_menu
 
 
 def led_menu():
@@ -307,6 +360,11 @@ if __name__ == "__main__":
     menu.append(menu_items)
     menu_items.show_all()
     menu_items.set_submenu(led_menu())
+
+    menu_items = Gtk.MenuItem(label="Inactive time")
+    menu.append(menu_items)
+    menu_items.show_all()
+    menu_items.set_submenu(inactive_time_menu())
 
     if args.switch_command is not None:
         menu_items = Gtk.MenuItem(label="Switch")
