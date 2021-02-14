@@ -380,13 +380,8 @@ if __name__ == "__main__":
 
     ind.set_menu(menu)
 
-    # if we have switchSound binary, we can try to detect current output
-    if args.switch_command is not None:
-        GLib.timeout_add(60000, change_icon, None)
-
-    # update printed charge every 60 seconds
-    GLib.timeout_add(60000, change_label, None)
-    GLib.timeout_add(60000, change_chatmix, None)
+    # update information every 60 seconds
+    GLib.timeout_add(60000, refresh, None)
 
     # refresh values right away
     refresh(None)
