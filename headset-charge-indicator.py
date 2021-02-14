@@ -56,7 +56,7 @@ def change_icon(dummy):
             ind.set_attention_icon_full("audio-headset", "Headset")
         
     except CalledProcessError as e:
-        print(e)
+        print("Response: " + str(e.returncode) + ": " + str(e))
         if e.returncode == 1:
             ind.set_attention_icon_full("audio-speakers", "Audio Card")
             prevSwitch = 1
@@ -78,13 +78,14 @@ def change_label(dummy):
         output = check_output([HEADSETCONTROL_BINARY, OPTION_BATTERY, OPTION_SILENT])
         if args.verbose:
             print('Bat: ' + str(output, 'utf-8'))
+
         # -1 indicates "Battery is charging"
         if int(output) == -1:
             text = 'Chg'
             ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         # -2 indicates "Battery is unavailable"
         elif int(output) == -2:
-            text = 'Chg'
+            text = 'Off'
             ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         elif int(output) < 100:
             text = str(output, 'utf-8') + '%'
@@ -294,9 +295,9 @@ def switch_menu():
 
 
 def refresh(dummy):
+    change_icon(None)
     change_label(None)
     change_chatmix(None)
-    change_icon(None)
 
 
 def quit_app(source):
