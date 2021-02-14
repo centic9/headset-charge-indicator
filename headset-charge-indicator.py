@@ -51,23 +51,23 @@ def change_icon(dummy):
             check_output([SWITCHSOUND_BINARY, "-1"])
             if prevSwitch == 0:
                 # exit 0 means we could not find out, so set some other icon
-                ind.set_attention_icon_full("audio-card", "Audio Card")
+                ind.set_icon_full("audio-card", "Audio Card")
         else:
-            ind.set_attention_icon_full("audio-headset", "Headset")
+            ind.set_icon_full("audio-headset", "Headset")
         
     except CalledProcessError as e:
         print("Response: " + str(e.returncode) + ": " + str(e))
         if e.returncode == 1:
-            ind.set_attention_icon_full("audio-speakers", "Audio Card")
+            ind.set_icon_full("audio-speakers", "Audio Card")
             prevSwitch = 1
         elif e.returncode == 2:
-            ind.set_attention_icon_full("audio-headset", "Headset")
+            ind.set_icon_full("audio-headset", "Headset")
             prevSwitch = 2
         elif e.returncode == 3:
-            ind.set_attention_icon_full("audio-headphones", "USB")
+            ind.set_icon_full("audio-headphones", "USB")
             prevSwitch = 3
         else:
-            ind.set_attention_icon_full("audio-input-microphone", "Speakerphone")
+            ind.set_icon_full("audio-input-microphone", "Speakerphone")
             prevSwitch = 4
 
     return True
@@ -82,17 +82,13 @@ def change_label(dummy):
         # -1 indicates "Battery is charging"
         if int(output) == -1:
             text = 'Chg'
-            ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         # -2 indicates "Battery is unavailable"
         elif int(output) == -2:
             text = 'Off'
-            ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         elif int(output) < 100:
             text = str(output, 'utf-8') + '%'
-            ind.set_status(appindicator.IndicatorStatus.ATTENTION)
         else:
             text = str(output, 'utf-8') + '%'
-            ind.set_status(appindicator.IndicatorStatus.ACTIVE)
     except CalledProcessError as e:
         print(e)
         text = 'N/A'
