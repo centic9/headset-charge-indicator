@@ -70,8 +70,6 @@ def change_icon(dummy):
             ind.set_icon_full("audio-input-microphone", "Speakerphone")
             prevSwitch = 4
 
-    return True
-
 
 def change_label(dummy):
     try:
@@ -96,8 +94,6 @@ def change_label(dummy):
     ind.set_label(text, '999%')
     charge.get_child().set_text('Charge: ' + text)
 
-    return True
-
 
 def change_chatmix(dummy):
     global chatmix
@@ -110,8 +106,6 @@ def change_chatmix(dummy):
     except CalledProcessError as e:
         print(e)
         chatmix.get_child().set_text('ChatMix: N/A')
-
-    return True
 
 
 def set_sidetone(dummy, level):
@@ -294,6 +288,9 @@ def refresh(dummy):
     change_icon(None)
     change_label(None)
     change_chatmix(None)
+    
+    # return True to keep the timer running
+    return True
 
 
 def quit_app(source):
