@@ -44,7 +44,7 @@ global prevSwitch
 prevSwitch = 0
 
 
-def change_icon(dummy):
+def change_icon():
     global prevSwitch
     try:
         if SWITCHSOUND_BINARY is not None:
@@ -71,7 +71,7 @@ def change_icon(dummy):
             prevSwitch = 4
 
 
-def change_label(dummy):
+def change_label():
     try:
         output = check_output([HEADSETCONTROL_BINARY, OPTION_BATTERY, OPTION_SILENT])
         if args.verbose:
@@ -95,7 +95,7 @@ def change_label(dummy):
     charge.get_child().set_text('Charge: ' + text)
 
 
-def change_chatmix(dummy):
+def change_chatmix():
     global chatmix
 
     try:
@@ -285,9 +285,9 @@ def switch_menu():
 
 
 def refresh(dummy):
-    change_icon(None)
-    change_label(None)
-    change_chatmix(None)
+    change_icon()
+    change_label()
+    change_chatmix()
     
     # return True to keep the timer running
     return True
