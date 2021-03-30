@@ -27,6 +27,7 @@ HEADSETCONTROL_BINARY = None
 global SWITCHSOUND_BINARY
 SWITCHSOUND_BINARY = None
 
+OPTION_CAPABILITIES = '-?'
 OPTION_BATTERY = '-b'
 OPTION_SILENT = '-c'
 OPTION_CHATMIX = '-m'
@@ -69,6 +70,18 @@ def change_icon():
         else:
             ind.set_icon_full("audio-input-microphone", "Speakerphone")
             prevSwitch = 4
+
+def fetch_capabilities():
+    try:
+        # ask HeadsetControl for the available capabilities for the current headset
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_CAPABILITIES, OPTION_SILENT])
+        if args.verbose:
+            print('Cap: ' + str(output, 'utf-8'))
+
+        return output
+    except CalledProcessError as e:
+        print(e)
+        return "all"
 
 
 def change_label():
@@ -285,9 +298,13 @@ def switch_menu():
 
 
 def refresh(dummy):
+    cap = fetch_capabilities()
+
     change_icon()
-    change_label()
-    change_chatmix()
+    if "all" == cap or b'b' in cap:
+        change_label()
+    if "all" == cap or b'm' in cap:
+        change_chatmix()
     
     # return True to keep the timer running
     return True
