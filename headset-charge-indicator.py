@@ -9,7 +9,8 @@
 # startup of the graphical desktop
 
 import argparse
-from sys import argv
+from shutil import which
+from sys import argv, exit
 from gi import require_version
 
 require_version('Gtk', '3.0')
@@ -314,18 +315,29 @@ def quit_app(source):
     Gtk.main_quit()
 
 
+def locate_headsetcontrol_binary(binary_location):
+    location = which(binary_location)
+
+    if location is None:
+        print(f"Unable to locate headsetcontrol binary at: {binary_location}")
+    elif args.verbose:
+        print(f"Found headsetcontrol binary at: {location}")
+
+    return location
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="""
     Simple AppIndicator which uses the HeadsetControl application from 
     https://github.com/Sapd/HeadsetControl/ for retrieving charge information
     for wireless headsets and displays it as app-indicator
     
-    The application expects one or two commandline arguments, one for the location of the 
-    HeadsetControl binary and one for an optional command to switch between Laptop, Headset 
+    The application has two optional commandline arguments, one for the location of the
+    HeadsetControl binary and one for a command to switch between Laptop, Headset
     and other devices.
     """, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('--headsetcontrol-binary', metavar='<path to headsetcontrol binary>', type=str,
-                        help='Path to headsetcontrol binary', required=True,
+                        help='Optional path to headsetcontrol binary', required=False, default='headsetcontrol',
                         dest='headsetcontrolbinary')
     parser.add_argument('--switch-command', metavar='<device switch command>', type=str,
                         help='Optional command to switch between Laptop, Headset and other devices', required=False, default=None,
@@ -333,7 +345,12 @@ if __name__ == "__main__":
     parser.add_argument("--verbose", help="Increase output verbosity", action="store_true")
     args = parser.parse_args()
 
-    HEADSETCONTROL_BINARY = args.headsetcontrolbinary
+    HEADSETCONTROL_BINARY = locate_headsetcontrol_binary(args.headsetcontrolbinary)
+
+    if not HEADSETCONTROL_BINARY:
+        parser.print_usage()
+        exit(2);
+
     if args.switch_command is not None:
         SWITCHSOUND_BINARY = args.switch_command
 
