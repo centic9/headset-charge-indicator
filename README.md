@@ -20,7 +20,8 @@ the Headset and record from the correct microphone.
 
 On Ubuntu/Debian based distributions, install the following packages:
 
-    sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme gir1.2-appindicator3-0.1
+    sudo apt-get install pyt
+    hon3-gi libappindicator3-1 gnome-icon-theme gir1.2-appindicator3-0.1
 
 On Arch Linux, it should be sufficient to run the following steps:
 
@@ -36,6 +37,11 @@ note down the path to it.
 
 You can test the helper application manually via `headsetcontrol -b -c`, this should print the current
 battery level to the console if your headset is supported.
+
+### Starting the AppIndicator automatically 
+
+You can use the provided script `install.sh` to create an auto-start entry to start up headset-charge-indicator
+whenever the Desktop Environment is starting up.
 
 ## Usage
 
