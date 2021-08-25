@@ -11,14 +11,20 @@
 import argparse
 from shutil import which
 from sys import argv, exit
+from subprocess import check_output, CalledProcessError
 from gi import require_version
 
 require_version('Gtk', '3.0')
-require_version('AppIndicator3', '0.1')
-
 from gi.repository import Gtk, GLib
-from gi.repository import AppIndicator3 as appindicator
-from subprocess import check_output, CalledProcessError
+
+try:
+    require_version('AyatanaAppIndicator3', '0.1')
+    from gi.repository import AyatanaAppIndicator3 as appindicator
+    print("Using AyatanaAppIndicator")
+except ValueError:
+    require_version('AppIndicator3', '0.1')
+    from gi.repository import AppIndicator3 as appindicator
+    print("Using AppIndicator")
 
 APPINDICATOR_ID = 'headset-charge-indicator'
 
