@@ -2,7 +2,7 @@
 [![Tag](https://img.shields.io/github/tag/centic9/headset-charge-indicator.svg)](https://github.com/centic9/headset-charge-indicator/tags)
 
 A simple app-indicator for GNOME desktops to provide support for controlling some features of
-a number of wireless headsets.
+various wireless headsets.
 
 ![Screenshot](headset-charge-indicator.png)
 
@@ -20,8 +20,7 @@ the Headset and record from the correct microphone.
 
 On Ubuntu/Debian based distributions, install the following packages:
 
-    sudo apt-get install pyt
-    hon3-gi libappindicator3-1 gnome-icon-theme gir1.2-appindicator3-0.1
+    sudo apt-get install python3-gi libappindicator3-1 gnome-icon-theme gir1.2-ayatanaappindicator3-0.1
 
 On Arch Linux, it should be sufficient to run the following steps:
 
@@ -46,7 +45,7 @@ whenever the Desktop Environment is starting up.
 ## Usage
 
 Build/install the required executable `headseatcontrol` according to the instructions 
-above then start the headset-charge-indicator via 
+above, then start the headset-charge-indicator via 
 
     python3 headset-charge-indicator.py
 
@@ -54,7 +53,7 @@ A Headset-icon should appear in the area for app-indicators together with a perc
 
 You can optionally supply a path to the `headsetcontrol` binary.
 
-If you provide a the commandline argument `--switch-command`, an additional "Switch" menu will be added with 
+If you provide a commandline argument `--switch-command`, an additional "Switch" menu will be added with 
 options to switch between Soundcard and some Headsets and USB devices. The provided application or script will be
 invoked with "1" for soundcard, "2" for headset, "3" for an USB headset and "4" for a chat-device
 (it should be easy to adjust this for your devices).
@@ -102,12 +101,11 @@ Currently known behavior/support:
    * Note: On Debian/Ubuntu you might need to install package `gnome-shell-extension-appindicator`.
    * On other distributions, you will need to install the KStatusNotifierItem/AppIndicator Support from
    https://extensions.gnome.org/extension/615/appindicator-support/
-   
-   * After installation run `gnome-shell-extension-prefs` and enable `KStatusNotifierItem/AppIndicator Support`
+        * After installation run `gnome-shell-extension-prefs` and enable `KStatusNotifierItem/AppIndicator Support`
 * Cinnamon: Seems to work, but percentage is not displayed as part of the indicator-icon
 * KDE/Plasma: Seems to work, but percentage is not displayed as part of the indicator-icon
 * MATE: Runs, but does not display an icon
-* LXDE: Runs, but does not display an icon
+* LXDE: Seems to work, but percentage is not displayed as part of the indicator-icon (tested on Ubuntu Focal and Debian Bullseye)
 * Budgie: Runs, but does not display an icon
 * XFCE: Runs, but indicator-icon only appears for a very short time and then disappears again
 * OpenBox: ??
@@ -116,6 +114,12 @@ Please let me know via an issue if you successfully run it on another desktop en
 a way to make it run better on any of those desktop environments!
 
 The fact that the percentage does not show up everywhere is somewhat documented at http://net3d.free.fr/html/AppIndicator-0.1.gir/AppIndicator.Indicator-label.html
+
+## Desupport of AppIndicator
+
+Debian is phasing out support for `libappindicator` in favour of `libayatana-appindicator`, see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=895037 and https://wiki.debian.org/Ayatana/IndicatorsTransition
+
+This tool now has support for this so that it first tries to load the newer AyatanaAppIndicator system and only falls back to AppIndicator if necessary.
 
 ## Development/Debugging
 
