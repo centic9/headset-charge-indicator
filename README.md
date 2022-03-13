@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/centic9/headset-charge-indicator.svg)](https://travis-ci.org/centic9/headset-charge-indicator)
+[![Release](https://img.shields.io/github/release/centic9/headset-charge-indicator.svg)](https://github.com/centic9/headset-charge-indicator/releases)
+[![GitHub release](https://img.shields.io/github/release/centic9/headset-charge-indicator.svg?label=changelog)](https://github.com/centic9/headset-charge-indicator/releases/latest)
 [![Tag](https://img.shields.io/github/tag/centic9/headset-charge-indicator.svg)](https://github.com/centic9/headset-charge-indicator/tags)
 
 A simple app-indicator for GNOME desktops to provide support for controlling some features of
