@@ -56,7 +56,7 @@ You can optionally supply a path to the `headsetcontrol` binary.
 
 If you provide a commandline argument `--switch-command`, an additional "Switch" menu will be added with 
 options to switch between Soundcard and some Headsets and USB devices. The provided application or script will be
-invoked with "1" for soundcard, "2" for headset, "3" for an USB headset and "4" for a chat-device
+invoked with "1" for soundcard, "2" for headset, "3" for an USB headset, "4" for a chat-device and "5" for Monitor Audio
 (it should be easy to adjust this for your devices).
 
 A script can for example use pactl and/or pacmd to send audio output to the correct endpoint

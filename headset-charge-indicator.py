@@ -74,9 +74,12 @@ def change_icon():
         elif e.returncode == 3:
             ind.set_icon_full("audio-headphones", "USB")
             prevSwitch = 3
-        else:
+        elif e.returncode == 4:
             ind.set_icon_full("audio-input-microphone", "Speakerphone")
             prevSwitch = 4
+        else:
+            ind.set_icon_full("monitor", "Monitor")
+            prevSwitch = 5
 
 def fetch_capabilities():
     try:
@@ -296,10 +299,15 @@ def switch_menu():
     switchmenu.append(usb)
     usb.show_all()
 
-    usb = Gtk.MenuItem(label="Chat Device")
-    usb.connect("activate", switch_sound, 4)
-    switchmenu.append(usb)
-    usb.show_all()
+    chat = Gtk.MenuItem(label="Chat Device")
+    chat.connect("activate", switch_sound, 4)
+    switchmenu.append(chat)
+    chat.show_all()
+
+    monitor = Gtk.MenuItem(label="Monintor")
+    monitor.connect("activate", switch_sound, 5)
+    switchmenu.append(monitor)
+    monitor.show_all()
 
     return switchmenu
 
