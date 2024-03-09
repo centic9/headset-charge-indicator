@@ -27,8 +27,14 @@ On Arch Linux, it should be sufficient to run the following steps:
 
     sudo pacman -S libappindicator-gtk3 gnome-icon-theme
 
-On other distributions, you might need to install `pygobject`, but this is untested, PRs with 
-more information welcome!
+On Fedora, the following package installation were [reported](https://github.com/centic9/headset-charge-indicator/issues/17#issuecomment-1984196359) 
+to make it work at least on Fedora 39:
+
+    sudo dnf install libindicator
+    sudo dnf install libayatana-appindicator-gtk3
+
+On other distributions, you might need to install the corresponding package for `libindicator` or `ayatanaappindicator`. 
+Sometimes `pygobject` might also be needed, but other distributions are untested, PRs with more information welcome!
 
 ### Building HeadsetControl
 
