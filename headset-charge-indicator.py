@@ -9,6 +9,7 @@
 # startup of the graphical desktop
 
 import argparse
+import json
 from shutil import which
 from sys import argv, exit
 from subprocess import check_output, CalledProcessError
@@ -34,9 +35,7 @@ HEADSETCONTROL_BINARY = None
 global SWITCHSOUND_BINARY
 SWITCHSOUND_BINARY = None
 
-OPTION_CAPABILITIES = '-?'
-OPTION_BATTERY = '-b'
-OPTION_SILENT = '-c'
+OPTION_OUTPUT = "-oJSON"
 OPTION_CHATMIX = '-m'
 OPTION_SIDETONE = '-s'
 OPTION_LED = '-l'
@@ -81,61 +80,50 @@ def change_icon():
             ind.set_icon_full("monitor", "Monitor")
             prevSwitch = 5
 
-def fetch_capabilities():
-    try:
-        # ask HeadsetControl for the available capabilities for the current headset
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_CAPABILITIES, OPTION_SILENT])
-        if args.verbose:
-            print('Cap: ' + str(output, 'utf-8'))
-
-        return output
-    except CalledProcessError as e:
-        print(e)
-        return "all"
-
 
 def change_label():
     try:
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_BATTERY, OPTION_SILENT])
-        if args.verbose:
-            print('Bat: ' + str(output, 'utf-8'))
-
-        # -1 indicates "Battery is charging"
-        if int(output) == -1:
-            text = 'Chg'
-        # -2 indicates "Battery is unavailable"
-        elif int(output) == -2:
-            text = 'Off'
-        elif int(output) < 100:
-            text = str(output, 'utf-8') + '%'
-        else:
-            text = str(output, 'utf-8') + '%'
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_OUTPUT])
     except CalledProcessError as e:
         print(e)
         text = 'N/A'
+    else:
+        if args.verbose:
+            print('Bat: ' + str(output, 'utf-8'))
+
+        j = json.loads(output)
+        if len(j["devices"]) >= 1:
+            dev = j["devices"][0]
+            bat = dev["battery"]
+            level = bat.get("level")
+            status = bat.get("status")
+            if level >=0:
+                text = f"{level}%"
+            else:
+                if status == "BATTERY_AVAILABLE":
+                    text = "Ava"
+                elif status == "BATTERY_UNAVAILABLE":
+                    text = "Off"
+                elif status == "BATTERY_CHARGING":
+                    text = "Chg"
+                else:
+                    text = "Unknown"
+            cm = dev.get("chatmix")
+            if cm:
+                chatmix.get_child().set_text(f"ChatMix: {cm}")
+            else:
+                chatmix.get_child().set_text(f"ChatMix: N/A")
+
 
     ind.set_label(text, '999%')
     charge.get_child().set_text('Charge: ' + text)
-
-
-def change_chatmix():
-    global chatmix
-
-    try:
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_CHATMIX, OPTION_SILENT])
-        if args.verbose:
-            print("ChatMix: " + str(output, 'utf-8'))
-        chatmix.get_child().set_text('ChatMix: ' + str(output, 'utf-8'))
-    except CalledProcessError as e:
-        print(e)
-        chatmix.get_child().set_text('ChatMix: N/A')
 
 
 def set_sidetone(dummy, level):
     if args.verbose:
         print("Set sidetone to: " + str(level))
     try:
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_SIDETONE, str(level), OPTION_SILENT])
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_SIDETONE, str(level), OPTION_OUTPUT])
         if args.verbose:
             print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
@@ -148,7 +136,7 @@ def set_inactive_time(dummy, level):
     if args.verbose:
         print("Set inactive-time to: " + str(level))
     try:
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_INACTIVE_TIME, str(level), OPTION_SILENT])
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_INACTIVE_TIME, str(level), OPTION_OUTPUT])
         if args.verbose:
             print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
@@ -161,7 +149,7 @@ def set_led(dummy, level):
     if args.verbose:
         print("Set LED to: " + str(level))
     try:
-        output = check_output([HEADSETCONTROL_BINARY, OPTION_LED, str(level), OPTION_SILENT])
+        output = check_output([HEADSETCONTROL_BINARY, OPTION_LED, str(level), OPTION_OUTPUT])
         if args.verbose:
             print("Result: " + str(output, 'utf-8'))
     except CalledProcessError as e:
@@ -313,13 +301,8 @@ def switch_menu():
 
 
 def refresh(dummy):
-    cap = fetch_capabilities()
-
     change_icon()
-    if "all" == cap or b'b' in cap:
-        change_label()
-    if "all" == cap or b'm' in cap:
-        change_chatmix()
+    change_label()
     
     # return True to keep the timer running
     return True
